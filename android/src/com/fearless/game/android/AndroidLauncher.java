@@ -12,6 +12,7 @@ public class AndroidLauncher extends AndroidApplication {
 	@Override
 	protected void onCreate (Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_androidlauncher);
 		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
 		initialize(new FearlessGame(), config);
 	}
@@ -23,9 +24,11 @@ public class AndroidLauncher extends AndroidApplication {
 		builder.setTitle("Exit");
 		builder.setMessage("Are you sure you want to exit?");
 		builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-			@Override
-			public void onClick(DialogInterface dialog, int which) {finish();}
-		});
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                finish();
+            }
+        });
 		builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
