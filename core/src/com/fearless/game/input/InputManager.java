@@ -6,6 +6,7 @@ import com.fearless.game.player.Player;
 
 import java.util.List;
 
+
 /**
  * Created by Chris on 2/3/2016.
  */
@@ -59,20 +60,30 @@ public class InputManager implements InputProcessor {
         return false;
     }
 
+    /**
+     *  Edited by Jonathan on 02/03/2016
+     *  not getting correct y coordinates
+     */
+
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        return false;
+
+        if(pointer > 0){return false;}
+        player.setPosition(screenX,screenY,true);
+        return true;
     }
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        return false;
+        if(pointer > 0){return false;}
+        player.setPosition(screenX,screenY,false);
+        return true;
     }
 
     @Override
     public boolean touchDragged(int screenX, int screenY, int pointer) {
-    //Need to translate to world coordinates
-    //player.setPosition(screenX, -screenY);
+        //todo update coordinates to setPosition based on where touch moves
+        //Need to translate to world coordinates
         return false;
     }
 
