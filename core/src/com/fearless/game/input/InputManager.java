@@ -2,6 +2,7 @@ package com.fearless.game.input;
 
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.math.Vector2;
 import com.fearless.game.player.Player;
 
 import java.util.List;
@@ -12,9 +13,11 @@ import java.util.List;
  */
 public class InputManager implements InputProcessor {
     private Player player;
+    private InputTranslator inputTranslator;
 
-    public InputManager(Player p){
+    public InputManager(Player p, InputTranslator translator){
         player = p;
+        inputTranslator = translator;
     }
 
     @Override
@@ -67,33 +70,45 @@ public class InputManager implements InputProcessor {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-
         if(pointer > 0){return false;}
-        player.setPosition(screenX,screenY,true);
+
+        Vector2 position = translateCoordinates(screenX, screenY);
+        player.setPosition(position);
+//        Vector2 position = inputTranslator.Translate2DCoordinates(-screenX, -screenY);
+//        player.setPosition(position.x,position.y,true);
+
         return true;
     }
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
         if(pointer > 0){return false;}
-        player.setPosition(screenX,screenY,false);
+        Vector2 position = translateCoordinates(screenX, screenY);
+        player.setPosition(position);
         return true;
     }
 
     @Override
     public boolean touchDragged(int screenX, int screenY, int pointer) {
-        //todo update coordinates to setPosition based on where touch moves
-        //Need to translate to world coordinates
+        Vector2 position = translateCoordinates(screenX, screenY);
+        player.setPosition(position);
         return false;
     }
 
     @Override
     public boolean mouseMoved(int screenX, int screenY) {
+        Vector2 position = inputTranslator.Translate2DCoordinates(screenX, screenY);
+        player.setPosition(position);
         return false;
     }
 
     @Override
     public boolean scrolled(int amount) {
         return false;
+    }
+
+    private Vector2 translateCoordinates(int screenX, int screenY){
+        return inputTranslator.Translate2DCoordinates(screenX, screenY);
+
     }
 }
