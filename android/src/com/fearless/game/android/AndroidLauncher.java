@@ -7,6 +7,7 @@ import android.os.Bundle;
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
 import com.fearless.game.FearlessGame;
+import com.fearless.game.input.managers.TouchInputManager;
 
 public class AndroidLauncher extends AndroidApplication {
 	@Override
@@ -14,7 +15,7 @@ public class AndroidLauncher extends AndroidApplication {
 		super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_androidlauncher);
 		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
-		initialize(new FearlessGame(), config);
+		initialize(new FearlessGame(new TouchInputManager()), config);
 	}
 
 	@Override
