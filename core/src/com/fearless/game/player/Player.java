@@ -1,11 +1,9 @@
 package com.fearless.game.player;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.Gdx;
-
-import sun.rmi.runtime.Log;
 
 /**
  * Created by Chris on 2/3/2016.
@@ -17,6 +15,7 @@ public class Player {
     private Vector2 location;
     private int velocity = 50;
     private int xV , yV;
+    private float currentTime = 0;
 
     boolean moveRight;
     boolean moveLeft;
@@ -27,7 +26,7 @@ public class Player {
     public Player(){
         location = new Vector2();
         img = new Texture("badlogic.jpg");
-        sprite = new Sprite(img, 50, 50);
+        sprite = new Sprite(img, 300, 300);
     }
 
     public void updateMotion(){
@@ -62,16 +61,21 @@ public class Player {
 
     //handles logic for the touch movement
     //todo logic to stop when player reaches touch location
-    public void setPosition(int x, int y, boolean t)
+    //NOT SURE IF THIS CODE WORKS ANY MORE. SHOULD PROBABLY
+    //DISCUSS ITS INTENTION
+    public void setPosition(float x, float y, boolean t)
     {
         if(touchMove && t) touchMove = false;
     	if(x > location.x){ xV = velocity;}
         else {xV = -velocity;}
-        if(y>location.y){yV = velocity;}
-        else {yV = -velocity;}
+        if(y>location.y){yV = -velocity;}
+        else {yV = velocity;}
         touchMove = t;
     }
 
+    public void setPosition(Vector2 position){
+        location.set(position.x, location.y);
+    }
     
     public void setMoveUp(boolean t){
         if(moveDown && t) moveUp = false;
@@ -101,11 +105,16 @@ public class Player {
 
     //touch movement logic
     public void handleTouch(){
-        location.add(5 * xV * Gdx.graphics.getDeltaTime(), 5 * yV * Gdx.graphics.getDeltaTime());
+//        location.add(5 * xV * Gdx.graphics.getDeltaTime(), 5 * yV * Gdx.graphics.getDeltaTime());
     }
 
 
     private void updateSprite(){
+        System.out.println("Location: X:" + location.x + ", Y:" + location.y);
+
+        if(sprite.getX() == location.x)
+            return;
+
         sprite.setPosition(location.x, location.y);
     }
 }
